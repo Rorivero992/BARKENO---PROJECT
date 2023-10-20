@@ -6,6 +6,7 @@ from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 from imblearn.over_sampling import SMOTE
 
+
 # Función de limpieza
 def limpieza_barkeno(df):
         import pandas as pd
@@ -150,3 +151,7 @@ if uploaded_file is not None:
     
     df_modelo['probabilidad_realizada'] = prob_realizada
     st.dataframe(df_modelo)
+else:
+    st.error("El conjunto de datos no es correcto")
+
+
