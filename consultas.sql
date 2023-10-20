@@ -28,4 +28,23 @@ SELECT max(racha) FROM data_metereologico;
 
 SELECT DISTINCT(diferencia_dias) FROM df_barkeno2;
 
+-- ANALISIS DIAS DE LA SEMANA CON MAS RESERVAS Y PROVEEDOR.
+WITH ReservasPorSemana AS (
+    SELECT
+        id_origen_reserva,
+        dia_visita,
+        SUM(pax_real) AS reservas_por_semana,
+        RANK() OVER (PARTITION BY YEARWEEK(dia_visita) ORDER BY SUM(pax_real) DESC) AS ranking
+    FROM data_barkeno_transformado
+    WHERE realitzat = 1
+    GROUP BY id_origen_reserva, dia_visita
+)
+
+SELECT
+    id_origen_reserva,
+    dia_visita,
+    reservas_por_semana
+FROM ReservasPorSemana
+WHERE ranking = 1
+ORDER BY reservas_por_semana DESC;
 
